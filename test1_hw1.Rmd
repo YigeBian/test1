@@ -2,57 +2,58 @@
 title: "test for hw1"
 author: "Yige Bian"
 date: 2023-9-18
-output: 
-  html_document:
-    toc: true
-    toc_float: true
-    theme: flatly
-    fig_caption: yes
-    number_sections: yes
-    self_contained: yes
-    code_folding: hide
+output: github_document
 ---
 
 ```{r setup, include = FALSE}
+Sys.setlocale("LC_TIME", "English") # Manually change the language into English due to the limitation of windows license
 library(tidyverse)
 ```
 
 # Problem 1
-```{r data initialize}
+## Data description
+```{r data initialization}
+# Load the moderndive library and load the early_january_weather datase
 library(moderndive)
 data("early_january_weather")
 ```
 
-The dataset 'early_january_weather' has `r nrow(early_january_weather)` rows and `r ncol(early_january_weather)` columns. Variables in the dataset are `r colnames(early_january_weather)`.
+*   Variables in the dataset 'early_january_weather' are `r colnames(early_january_weather)`.
+    *   The variable `origin` has class `r class(pull(early_january_weather, origin))`
+    *   The variable `year` has class `r class(pull(early_january_weather, year))`
+    *   The variable `month` has class `r class(pull(early_january_weather, month))`
+    *   The variable `day` has class `r class(pull(early_january_weather, day))`
+    *   The variable `hour` has class `r class(pull(early_january_weather, hour))`
+    *   The variable `temp` has class `r class(pull(early_january_weather, temp))`
+    *   The variable `dewp` has class `r class(pull(early_january_weather, dewp))`
+    *   The variable `humid` has class `r class(pull(early_january_weather, humid))`
+    *   The variable `wind_dir` has class `r class(pull(early_january_weather, wind_dir))`
+    *   The variable `wind_speed` has class `r class(pull(early_january_weather, wind_speed))`
+    *   The variable `wind_gust` has class `r class(pull(early_january_weather, wind_gust))`
+    *   The variable `precip` has class `r class(pull(early_january_weather, precip))`
+    *   The variable `pressure` has class `r class(pull(early_january_weather, pressure))`
+    *   The variable `visib` has class `r class(pull(early_january_weather, visib))`
+    *   The variable `time_hour` has class `r class(pull(early_january_weather, time_hour))`.
+*   The dataset 'early_january_weather' has `r nrow(early_january_weather)` rows and `r ncol(early_january_weather)` columns. 
+*   The mean temperature is `r mean(pull(early_january_weather, temp))`
 
-*   The variable `origin` has class `r class(pull(early_january_weather, origin))`
-*   The variable `year` has class `r class(pull(early_january_weather, year))`
-*   The variable `month` has class `r class(pull(early_january_weather, month))`
-*   The variable `day` has class `r class(pull(early_january_weather, day))`
-*   The variable `hour` has class `r class(pull(early_january_weather, hour))`
-*   The variable `temp` has class `r class(pull(early_january_weather, temp))`
-*   The variable `dewp` has class `r class(pull(early_january_weather, dewp))`
-*   The variable `humid` has class `r class(pull(early_january_weather, humid))`
-*   The variable `wind_dir` has class `r class(pull(early_january_weather, wind_dir))`
-*   The variable `wind_speed` has class `r class(pull(early_january_weather, wind_speed))`
-*   The variable `wind_gust` has class `r class(pull(early_january_weather, wind_gust))`
-*   The variable `precip` has class `r class(pull(early_january_weather, precip))`
-*   The variable `pressure` has class `r class(pull(early_january_weather, pressure))`
-*   The variable `visib` has class `r class(pull(early_january_weather, visib))`
-*   The variable `time_hour` has class `r class(pull(early_january_weather, time_hour))`.
-
-The mean temperature is `r mean(pull(early_january_weather, temp))`
-
+## Data plot
 ```{r scatter plot for time and temp}
-Sys.setlocale("LC_TIME", "English")
+# Scatterplot of temp (y) vs time_hour (x), color points using the humid
 ggplot(early_january_weather, aes(x = time_hour, y = temp, color=humid)) + geom_point()
-ggsave("scatter_plot.pdf", height = 4, width = 6)
 ```
 
 The scatter plot illustrates that, from January 1st to January 15th, a noticeable upward trend in temperature fluctuations can be observed. The temperature during different times of the day follows a similar pattern of change, and overall, the average temperature continues to rise. In the first few days of January, the humidity is relatively low. Starting from January 6th, there are intermittent periods of increased humidity. It's worth noting that from January 11th to January 14th, the humidity is particularly high, and during these days, the daily temperature fluctuations are relatively small.
 
+```{r scatterplot export}
+# Export scatterplot to project directory
+ggsave("scatter_plot.pdf", height = 4, width = 6)
+```
+
+
 # Problem 2
-```{r data initialize for problem2}
+## Dataframe initialization
+```{r data initialization for problem2}
 set.seed(1)
 
 samp_df = tibble(
@@ -62,18 +63,15 @@ samp_df = tibble(
   vec_factor = factor(c("high", "med", "samll", "high", "med", "med", "samll", "samll", "high", "med"))
 )
 ```
-
+## Mean of variables
 ```{r}
 mean(pull(samp_df,vec_random))
 mean(pull(samp_df,vec_logical))
 mean(pull(samp_df,vec_char))
 mean(pull(samp_df,vec_factor))
 ```
-```{r}
+## Convert of variable types
+```{r, eval = FALSE}
 mean(as.numeric(pull(samp_df,vec_char)))
 as.numeric(pull(samp_df,vec_factor))
 ```
-
-
-
-
