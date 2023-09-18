@@ -105,9 +105,55 @@ mean(pull(samp_df,vec_factor))
 
     ## [1] NA
 
+From the output, we can observe that the variable `vec_random` and
+`vec_logical` with numeric and logical form could be calculated the
+mean, while the other two variables `vec_char` and `vec_factor` with
+character and factor form got the result of NA and encounter the
+warning: argument is not numeric or logical.
+
 ## Convert of variable types
 
 ``` r
-mean(as.numeric(pull(samp_df,vec_char)))
-as.numeric(pull(samp_df,vec_factor))
+# Define variables with different data type
+samp_num = c(-1, 1, 0.4, -3, 4)
+samp_logical = samp_num < 0
+samp_char_str = c("1", "2", "3", "4", "5")
+samp_char_num = c("a", "b", "c", "d", "e")
+samp_fac_str = factor(c("high", "med", "samll", "high", "med", "med"))
+samp_fac_num = factor(c("500", "400", "300", "200", "100", "600"))
+samp_fac_mix = factor(c("500", "a", "*", "200", "z", "#"))
+
+# use as.numeric() to convert type of variables
+as.numeric(samp_logical)
+as.numeric(samp_char_str)
+as.numeric(samp_char_num)
+as.numeric(samp_fac_str)
+as.numeric(samp_fac_num)
+as.numeric(samp_fac_mix)
+as.numeric(as.character(samp_fac_num))
 ```
+
+We have defined variables `samp_logical` with class `logical`,
+`samp_char_str` with class `character`, `samp_char_num` with class
+`character`, `samp_fac_str` with class `factor`, `samp_fac_num` with
+class `factor` and `samp_fac_mix` with class `factor`.
+
+1.  Logical variable: we observed that under the function
+    `as.numeric()`, true value will be converted to 1 and false value
+    will be converted to 0.
+2.  Character variable: if the variable stored numbers in char type like
+    `samp_char_num`, as.numeric() could convert it into numeric, while
+    if the variable stored string in char type like `samp_char_str`,
+    as.numeric() will fail to convert it to numeric.
+3.  Factor variable: We observed that when use as.numeric() to convert
+    factor to numeric, it will be converted to number from 1 to n
+    follows some rules of rank, where n is the number of different
+    values in the variable. If all values are numbers like
+    `samp_fac_num`, the rank is the value of number from small to large.
+    If all values are strings like `samp_fac_str`, the rank is the
+    alphabetic sequence. If values in the variable are a mix of numbers,
+    strings and symbols like `samp_fac_mix`, it follows the rank symbol,
+    number and string. Moreover, if we want to obtian the number in
+    `samp_fac_num` into numeric type, we should use `as.character()` to
+    convert it to char first, and then use `as.numeric()` to convert it
+    to numeric.
